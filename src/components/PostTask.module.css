@@ -56,3 +56,8 @@
 .taskList p{
     margin-top: 1rem;  
 }
+@media(max-width: 600px){
+    .section .div{
+        width: 90%;
+    }
+}
