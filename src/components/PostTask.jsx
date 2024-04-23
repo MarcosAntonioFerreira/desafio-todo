@@ -23,7 +23,7 @@ export function PostTask() {
             setTaskCount((state)=>{
                 if(control){
                     return state + 1;
-                }else{
+                }else if(state > 0){
                     return state - 1;
                 }
             });
@@ -31,7 +31,7 @@ export function PostTask() {
         
     }
 
-    /*function taskCountCompleted(stateCheck){
+    function autoTaskCountCompleted(stateCheck){
         setTaskCountcompleted((state)=>{
            if (stateCheck){
             return state + 1 ;
@@ -41,7 +41,7 @@ export function PostTask() {
         });
         
 
-    }*/
+    }
 
     function handleCreateNewTaskText() {
         event.preventDefault();
@@ -56,12 +56,16 @@ export function PostTask() {
         setNewTaskText(event.target.value);
     }
 
-    function deleteTask(taskToDelete) {
+    function deleteTask(taskToDelete,completed) {
         const tasksOneDeleted = tasks.filter(task => {
             return task != taskToDelete;
         })
+       
         setTasks(tasksOneDeleted);
         autoTaskCount(false);
+        if(completed){
+            autoTaskCountCompleted(false);
+           }
     }
 
     return (
@@ -89,12 +93,12 @@ export function PostTask() {
                     {
                         (() => {
                             if (tasks.length > 0) {
-                                return tasks.map(task => (
+                                return tasks.map((task,index) => (
                                     <Task
-                                        key={task}
+                                        key={index}
                                         content={task}
                                         onDeleteTask={deleteTask}
-                                        /*onInputCheck={taskCountCompleted}*/
+                                        onInputCheck={autoTaskCountCompleted}
                                     />
                                 ));
                             } else {
